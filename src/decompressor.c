@@ -7,6 +7,10 @@
 #include <stdlib.h>
 #include "global.h"
 
+const char* help = "\
+decompressor <filename>\
+";
+
 void deserialize_file(char* source, File* destination) {
 	memcpy(destination->filename, source + FILENAME_OFFSET, ENTRY_NAME_SIZE);
 	memcpy(&(destination->file_length), source + FILE_LENGTH_OFFSET, FILE_LENGTH_SIZE);
@@ -15,7 +19,8 @@ void deserialize_file(char* source, File* destination) {
 void read_header(int fd, char* directory_name, uint32_t* num_files) {
 	lseek(fd, 0, SEEK_SET);
 	char* header = malloc(HEADER_SIZE);
-	if (read(fd, header, HEADER_SIZE) == -1) error("Error reading file");
+	if (read(fd, header, HEADER_SIZE) == -1)
+		error("Error reading file");
 	memcpy(directory_name, header + DIRECTORY_NAME_OFFSET, ENTRY_NAME_SIZE);
 	memcpy(num_files, header + FILE_COUNT_OFFSET, FILE_COUNT_SIZE);
 	free(header);
@@ -25,7 +30,8 @@ void read_header(int fd, char* directory_name, uint32_t* num_files) {
 void read_file_header(int fd, uint32_t offset, char* filename, uint32_t* file_length) {
 	lseek(fd, offset, SEEK_SET);
 	char* header = malloc(FILE_HEADER_SIZE);
-	if (read(fd, header, FILE_HEADER_SIZE) == -1) error("Error reading file");
+	if (read(fd, header, FILE_HEADER_SIZE) == -1)
+		error("Error reading file");
 	memcpy(filename, header + FILENAME_OFFSET, ENTRY_NAME_SIZE);
 	memcpy(file_length, header + FILE_LENGTH_OFFSET, FILE_LENGTH_SIZE);
 	free(header);
@@ -40,13 +46,17 @@ void read_file_content(int fd, uint32_t offset, char* filename, uint32_t file_le
 	lseek(fd, offset, SEEK_SET);
 	lseek(out_fd, 0, SEEK_SET);
 	for (uint32_t i = 0; i < blocks; i++) {
-		if (read(fd, block, BLOCK_SIZE) == -1) error("Error reading file");
-		if (write(out_fd, block, BLOCK_SIZE) == -1) error("Error writing file");
+		if (read(fd, block, BLOCK_SIZE) == -1)
+			error("Error reading file");
+		if (write(out_fd, block, BLOCK_SIZE) == -1)
+			error("Error writing file");
 	}
 
 	if (additional_bytes > 0) {
-		if (read(fd, block, additional_bytes) == -1) error("Error reading file");
-		if (write(out_fd, block, additional_bytes) == -1) error("Error writing file");
+		if (read(fd, block, additional_bytes) == -1)
+			error("Error reading file");
+		if (write(out_fd, block, additional_bytes) == -1)
+			error("Error writing file");
 	}
 	free(block);
 	block = NULL;
@@ -54,11 +64,16 @@ void read_file_content(int fd, uint32_t offset, char* filename, uint32_t file_le
 }
 
 int main(int argc, char* argv[]) {
-	if (argc != 2) error("Not enough arguments");
-
+	if (argc != 2)
+		error("Not enough arguments");
 	char* filename = argv[1];
+	if (!strcmp(filename, "--help")) {
+		printf("%s\n", help);
+		exit(EXIT_SUCCESS);
+	}
 	int fd = open(filename, O_RDONLY);
-	if (fd == -1) error("Error opening file");
+	if (fd == -1)
+		error("Error opening file");
 	char directory_name[ENTRY_NAME_SIZE];
 	uint32_t num_files;
 	read_header(fd, directory_name, &num_files);
@@ -78,5 +93,6 @@ int main(int argc, char* argv[]) {
 		read_file_content(fd, offset, path, file_length);
 		offset += file_length;
 	}
-	if (close(fd) == -1) error("Error closing file");
+	if (close(fd) == -1)
+		error("Error closing file");
 }
