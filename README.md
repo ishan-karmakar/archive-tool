@@ -12,3 +12,6 @@ At the time, I was also interested in how compressors/archiving tools worked, so
 This is like a stripped down version of tar. It is an archiving tool that takes in a directory of files and merges it into one file. This archiving tool also includes a tool to unarchive, which will take the archived file and split it into the directory and the separate files.
 
 ## How does it work?
+### Archiver
+The archiver works in the following steps:
+- 
