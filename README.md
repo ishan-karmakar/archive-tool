@@ -28,3 +28,7 @@ The unarchiver works in the following steps:
   - Read file header from the input file
   - Create output file
   - Read file data from the input file and write to output file
+
+## File Structure
+The header format is shown as:
+![Header Format](imgs/headerformat.png "Header Format")
