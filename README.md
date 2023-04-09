@@ -14,4 +14,17 @@ This is like a stripped down version of tar. It is an archiving tool that takes 
 ## How does it work?
 ### Archiver
 The archiver works in the following steps:
-- 
+- Write the directory name to the output file
+- Iterate through each file in the directory
+  - Write filename and file size to the output file
+  - Write file data to output file
+- Write number of files to output file
+
+### Unarchiver
+The unarchiver works in the following steps:
+- Read the header from the input file
+- Create the directory
+- Read the number of files from the input file and iterate that many times
+  - Read file header from the input file
+  - Create output file
+  - Read file data from the input file and write to output file
