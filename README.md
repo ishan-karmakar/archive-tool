@@ -31,4 +31,6 @@ The unarchiver works in the following steps:
 
 ## File Structure
 The header format is shown as:
-![Header Format](imgs/headerformat.png "Header Format")
+![Header Format](imgs/headerformat.png "Header Format")  
+The format for each file entry is shown as:
+![File Entry Format](imgs/fileformat.png "File Entry Format")
