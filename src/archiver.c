@@ -10,7 +10,7 @@
 
 // The help message that appears when you use --help
 const char* help = "\
-compressor <directory name>\
+archiver <directory name>\
 ";
 
 // Serializes the header (filename and size) to the file

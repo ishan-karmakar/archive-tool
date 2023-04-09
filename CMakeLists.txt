@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 3.0)
-project(Compressor C)
-add_executable(compressor
-	src/compressor.c
+project(ArchivingTool C)
+add_executable(archiver
+	src/archiver.c
 	src/global.c
 )
-add_executable(decompressor
-	src/decompressor.c
+add_executable(unarchiver
+	src/unarchiver.c
 	src/global.c
 )
